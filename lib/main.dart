@@ -4,7 +4,7 @@ import 'package:flutter_basic/provider/counter.dart';
 import 'package:flutter_basic/routes.dart';
 import 'package:flutter_swiper/flutter_swiper.Dart';
 import 'package:provider/provider.dart';
-
+sss
 void main() {
   runApp(MyApp());
 }

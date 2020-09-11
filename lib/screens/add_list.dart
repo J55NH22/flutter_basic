@@ -2,7 +2,7 @@ import 'package:day_picker/day_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/src/convert_time.dart';
 import 'package:provider/provider.dart';
-
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import '../new_entry_bloc.dart';
 
 class AddList extends StatefulWidget {
@@ -10,9 +10,36 @@ class AddList extends StatefulWidget {
   _AddListState createState() => _AddListState();
 }
 
+class System {
+  final int id;
+  final String name;
+
+  System({
+    this.id,
+    this.name,
+  });
+}
+
 class _AddListState extends State<AddList> {
   TextEditingController nameController;
   GlobalKey<ScaffoldState> _scaffoldKey;
+  static List<System> _systems = [
+    System(id: 1, name: "저수조"),
+    System(id: 2, name: "보일러"),
+    System(id: 3, name: "제어1"),
+    System(id: 4, name: "제어2"),
+    System(id: 5, name: "제어3"),
+    System(id: 6, name: "제어4"),
+    System(id: 7, name: "제어5"),
+    System(id: 8, name: "제어6"),
+  ];
+  final _items = _systems
+      .map((system) => MultiSelectItem<System>(system, system.name))
+      .toList();
+  List<System> _selectedSystems = [];
+  List<System> _selectedSystems2 = [];
+  List<System> _selectedSystems3 = [];
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -34,7 +61,7 @@ class _AddListState extends State<AddList> {
       backgroundColor: Colors.white,
       body: Container(
           child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 25),
+        padding: EdgeInsets.symmetric(horizontal: 35),
         children: [
           PanelTitle(
             title: '스케줄 명',
@@ -52,11 +79,63 @@ class _AddListState extends State<AddList> {
             ),
           ),
           PanelTitle(
+            title: "제어 선택",
+            isRequired: true,
+          ),
+          SingleChildScrollView(
+            child: Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(2),
+              child: Column(
+                children: <Widget>[
+                  Form(
+                    key: _formKey,
+                    child: MultiSelectBottomSheetFormField(
+                      initialChildSize: 0.8,
+                      maxChildSize: 0.95,
+                      title: Text("Systems"),
+                      buttonText: Text("Select System"),
+                      items: _items,
+                      searchable: true,
+                      buttonIcon: Icon(
+                        Icons.arrow_drop_down,
+                        size: 30,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "시스템을 선택하세요";
+                        }
+                        return null;
+                      },
+                      onConfirm: (values) {
+                        _formKey.currentState.validate();
+                        setState(() {
+                          _selectedSystems3 = values;
+                        });
+                      },
+                      chipDisplay: MultiSelectChipDisplay(
+                        onTap: (item) {
+                          setState(() {
+                            _selectedSystems3.remove(item);
+                            _formKey.currentState.validate();
+                          });
+                        },
+                        items: _selectedSystems3
+                            .map((e) => MultiSelectItem(e, e.name))
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          PanelTitle(
             title: "요일 선택",
             isRequired: true,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(1.0),
             child: SelectWeekDays(
               border: false,
               boxDecoration: BoxDecoration(
@@ -87,8 +166,8 @@ class _AddListState extends State<AddList> {
               right: MediaQuery.of(context).size.height * 0.08,
             ),
             child: Container(
-              width: 220,
-              height: 70,
+              height: 50,
+              width: 100.0,
               child: FlatButton(
                 color: Color(0xFF0099FF),
                 shape: StadiumBorder(),

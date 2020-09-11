@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/provider/counter.dart';
 import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 
 class MyAlarm extends StatefulWidget {
   MyAlarm({Key key}) : super(key: key);

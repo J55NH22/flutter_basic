@@ -1,9 +1,11 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_basic/alarm.dart';
 import 'package:flutter_basic/provider/counter.dart';
 import 'package:flutter_basic/routes.dart';
 import 'package:flutter_swiper/flutter_swiper.Dart';
 import 'package:provider/provider.dart';
+import 'package:sliding_sheet/sliding_sheet.dart';
 
 void main() {
   runApp(MyApp());
@@ -108,11 +110,6 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.message),
-          onPressed: () {
-            print('알람 확인');
-          }),
       appBar: AppBar(
         title: Text('Home'),
         actions: [
@@ -161,7 +158,7 @@ class _MyDrawerState extends State<MyDrawer> {
       child: IconButton(
         icon: Icon(Icons.add_alert),
         onPressed: () {
-          Navigator.pushNamed(context, 'alarm');
+          showAsBottomSheet();
           if (counter.getCounter() > 0) {
             setState(() {
               counter.setCounter(0);
@@ -170,5 +167,33 @@ class _MyDrawerState extends State<MyDrawer> {
         },
       ),
     );
+  }
+
+  void showAsBottomSheet() async {
+    final result = await showSlidingBottomSheet(context, builder: (context) {
+      return SlidingSheetDialog(
+          elevation: 8,
+          cornerRadius: 20,
+          snapSpec: const SnapSpec(
+            snap: true,
+            snappings: [0.25, 0.7, 1.0],
+            positioning: SnapPositioning.relativeToAvailableSpace,
+          ),
+          builder: (context, state) {
+            return Container(
+              height: 800,
+              child: Center(child: MyAlarm()),
+            );
+          },
+          headerBuilder: (context, state) {
+            return Container(
+                height: 20,
+                width: double.infinity,
+                alignment: Alignment.center,
+                child: Icon(Icons.minimize_rounded));
+          });
+    });
+
+    print(result); // This is the result.
   }
 }

@@ -23,9 +23,6 @@ class _MyAlarmState extends State<MyAlarm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Alarm'),
-      ),
       body: Column(
         children: [
           _addButtons(),

@@ -18,6 +18,8 @@ class System {
     this.id,
     this.name,
   });
+  @override
+  String toString() => '$name';
 }
 
 class _AddListState extends State<AddList> {
@@ -25,13 +27,13 @@ class _AddListState extends State<AddList> {
   GlobalKey<ScaffoldState> _scaffoldKey;
   static List<System> _systems = [
     System(id: 1, name: "저수조"),
-    System(id: 2, name: "보일러"),
-    System(id: 3, name: "제어1"),
-    System(id: 4, name: "제어2"),
-    System(id: 5, name: "제어3"),
-    System(id: 6, name: "제어4"),
-    System(id: 7, name: "제어5"),
-    System(id: 8, name: "제어6"),
+    System(id: 2, name: "보일러1"),
+    System(id: 3, name: "보일러2"),
+    System(id: 4, name: "보일러3"),
+    System(id: 5, name: "보일러4"),
+    System(id: 6, name: "제어1"),
+    System(id: 7, name: "제어2"),
+    System(id: 8, name: "제어3"),
   ];
   final _items = _systems
       .map((system) => MultiSelectItem<System>(system, system.name))
@@ -111,6 +113,7 @@ class _AddListState extends State<AddList> {
                         _formKey.currentState.validate();
                         setState(() {
                           _selectedSystems3 = values;
+                          print(values);
                         });
                       },
                       chipDisplay: MultiSelectChipDisplay(
@@ -157,6 +160,10 @@ class _AddListState extends State<AddList> {
             isRequired: true,
           ),
           SelectTime(),
+          PanelTitle(
+            title: "휴일 설정",
+            isRequired: true,
+          ),
           SizedBox(
             height: 30,
           ),
@@ -217,6 +224,8 @@ class _SelectTimeState extends State<SelectTime> {
         //     "${convertTime(_time.minute.toString())}");
         print(picked.toString());
       });
+    } else {
+      print(picked);
     }
     return picked;
   }
@@ -250,6 +259,8 @@ class _SelectTimeState extends State<SelectTime> {
     );
   }
 }
+
+class DateFormat {}
 
 class PanelTitle extends StatelessWidget {
   final String title;

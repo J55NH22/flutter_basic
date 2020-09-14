@@ -23,16 +23,20 @@ class _MyAlarmState extends State<MyAlarm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          _addButtons(),
-          Expanded(
-              child: ListView(
-            children: _items.map((alarm) => _buildItemWidget(alarm)).toList(),
-          )),
-        ],
-      ),
-    );
+        body: Column(
+          children: [
+            _addButtons(),
+            Expanded(
+                child: ListView(
+              children: _items.map((alarm) => _buildItemWidget(alarm)).toList(),
+            )),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.close),
+            onPressed: () {
+              Navigator.pop(context);
+            }));
   }
 
   Widget _addButtons() {

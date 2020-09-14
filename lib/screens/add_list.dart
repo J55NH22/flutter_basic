@@ -1,9 +1,6 @@
 import 'package:day_picker/day_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/src/convert_time.dart';
-import 'package:provider/provider.dart';
-
-import '../new_entry_bloc.dart';
 
 class AddList extends StatefulWidget {
   @override
@@ -121,7 +118,7 @@ class SelectTime extends StatefulWidget {
 }
 
 class _SelectTimeState extends State<SelectTime> {
-  TimeOfDay _time = TimeOfDay(hour: 0, minute: 00);
+  TimeOfDay _time = TimeOfDay(hour: 00, minute: 00);
   bool _clicked = false;
 
   Future<TimeOfDay> _selectTime(BuildContext context) async {
@@ -136,7 +133,7 @@ class _SelectTimeState extends State<SelectTime> {
         _clicked = true;
         // _newEntryBloc.updateTime("${convertTime(_time.hour.toString())}" +
         //     "${convertTime(_time.minute.toString())}");
-        print(picked.toString());
+        print(picked.format(context));
       });
     }
     return picked;

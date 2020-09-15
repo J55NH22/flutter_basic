@@ -3,6 +3,10 @@ import 'package:flutter_basic/screens/add_list.dart';
 import 'package:flutter_basic/screens/schedule_list.dart';
 import 'package:flutter_basic/screens/holiday_list.dart';
 
+import 'package:flutter_basic/models/custom_data_table.dart' as dataTable;
+import 'package:flutter_basic/database/database_helper.dart';
+import 'package:flutter_basic/models/entry.dart';
+
 class MySchedule extends StatefulWidget {
   @override
   _MyScheduleState createState() => _MyScheduleState();
@@ -12,6 +16,10 @@ class _MyScheduleState extends State<MySchedule> {
   final items = List<String>.generate(20, (index) => "item ${index + 1}");
   int _selectedIndex = 0;
   final List<Widget> _screens = [ScheduleList(), AddList(), HolidayList()];
+  List<Entry> list = new List();
+  List<dataTable.DataRow> dataRows = new List();
+  var db = DatabaseHelper();
+  List<Map<String, dynamic>> entryList = [];
 
   @override
   Widget build(BuildContext context) {

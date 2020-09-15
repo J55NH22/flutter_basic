@@ -1,91 +1,94 @@
+import 'package:flutter_basic/models/custom_data_table.dart' as dataTable;
+import 'package:flutter_basic/database/database_helper.dart';
+import 'package:flutter_basic/models/entry.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleList extends StatefulWidget {
   @override
-  _ScheduleListState createState() => _ScheduleListState();
+  ScheduleListState createState() => ScheduleListState();
 }
 
-class Todo {
-  bool isDone = false;
-  String title;
-
-  Todo(this.title);
-}
-
-class _ScheduleListState extends State<ScheduleList> {
-  final _items = <Todo>[];
-  var _todoController = TextEditingController();
+class ScheduleListState extends State<ScheduleList> {
+  List<Entry> list = new List();
+  List<dataTable.DataRow> dataRows = new List();
+  var db = DatabaseHelper();
+  List<Map<String, dynamic>> entryList = [];
 
   @override
-  void dispose() {
-    _todoController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    db.getAllEntries().then((entries) {
+      setState(() {
+        entries.forEach((entry) {
+          list.add(Entry.fromMap(entry));
+        });
+        list.sort((a, b) => a.endDateTime.compareTo(b.endDateTime));
+      });
+    });
   }
+
+  Widget dataBody() => dataTable.DataTable(
+        sortColumnIndex: 1,
+        sortAscending: false,
+        columns: <dataTable.DataColumn>[
+          dataTable.DataColumn(
+            label: Text(
+              "Weekday",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            numeric: false,
+            onSort: (i, b) => {},
+          ),
+          dataTable.DataColumn(
+            label: Text(
+              "Date",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            numeric: false,
+            onSort: (i, b) => () {
+              setState(() {
+                list.sort((a, b) => a.endDateTime.compareTo(b.endDateTime));
+              });
+            },
+          ),
+          dataTable.DataColumn(
+            label: Text(
+              "Time",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            numeric: false,
+            onSort: (i, b) => () {
+              setState(() {
+                list.sort((a, b) =>
+                    a.durationInMinutes.compareTo(b.durationInMinutes));
+              });
+            },
+          ),
+        ],
+        rows: list
+            .map(
+              (entry) => dataTable.DataRow(
+                cells: <dataTable.DataCell>[
+                  dataTable.DataCell(
+                    Text(entry.getDay().toString()),
+                    showEditIcon: false,
+                  ),
+                  dataTable.DataCell(
+                    Text(entry.getDate()),
+                    showEditIcon: false,
+                  ),
+                  dataTable.DataCell(
+                    Text(entry.hourMinutes()),
+                    showEditIcon: false,
+                  ),
+                ],
+              ),
+            )
+            .toList(),
+      );
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _todoController,
-                ),
-              ),
-              RaisedButton(
-                child: Text('추가'),
-                onPressed: () => _addTodo(Todo(_todoController.text)),
-              )
-            ],
-          ),
-          Expanded(
-              child: ListView(
-            children: _items.map((todo) => _buildItemWidget(todo)).toList(),
-          )),
-        ],
-      ),
-    ));
-  }
-
-  Widget _buildItemWidget(Todo todo) {
-    return ListTile(
-      onTap: () => _toggleTodo(todo),
-      title: Text(
-        todo.title,
-        style: todo.isDone
-            ? TextStyle(
-                decoration: TextDecoration.lineThrough,
-                fontStyle: FontStyle.italic,
-              )
-            : null,
-      ),
-      trailing: IconButton(
-        icon: Icon(Icons.delete),
-        onPressed: () => _deleteTodo(todo),
-      ),
-    );
-  }
-
-  void _addTodo(Todo todo) {
-    setState(() {
-      _items.add(todo);
-      _todoController.text;
-    });
-  }
-
-  void _deleteTodo(Todo todo) {
-    setState(() {
-      _items.remove(todo);
-    });
-  }
-
-  void _toggleTodo(Todo todo) {
-    setState(() {
-      todo.isDone = !todo.isDone;
-    });
+    return SingleChildScrollView(child: dataBody());
   }
 }

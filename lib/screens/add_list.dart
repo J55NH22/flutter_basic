@@ -142,7 +142,7 @@ class _AddListState extends State<AddList> {
             child: SelectWeekDays(
               border: false,
               boxDecoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.orange,
                 borderRadius: BorderRadius.circular(30.0),
               ),
               onSelect: (values) {
@@ -176,13 +176,13 @@ class _AddListState extends State<AddList> {
               height: 50,
               width: 100.0,
               child: FlatButton(
-                color: Color(0xFF0099FF),
+                color: Color(0xFFFF5E00),
                 shape: StadiumBorder(),
                 child: Center(
                   child: Text(
-                    "완료",
+                    "저장",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 28,
                       fontWeight: FontWeight.w700,
                     ),
@@ -237,7 +237,7 @@ class _SelectTimeState extends State<SelectTime> {
       child: Padding(
         padding: EdgeInsets.only(top: 10.0, bottom: 4),
         child: FlatButton(
-          color: Color(0xFF0099FF),
+          color: Color(0xFFFF5E00),
           shape: StadiumBorder(),
           onPressed: () {
             _selectTime(context);
@@ -248,7 +248,7 @@ class _SelectTimeState extends State<SelectTime> {
                   ? "시간 선택"
                   : "${convertTime(_time.hour.toString())}:${convertTime(_time.minute.toString())}",
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
               ),

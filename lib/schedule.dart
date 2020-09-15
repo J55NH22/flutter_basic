@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_basic/screens/add_list.dart';
 import 'package:flutter_basic/screens/schedule_list.dart';
+import 'package:flutter_basic/screens/holiday_list.dart';
 
 class MySchedule extends StatefulWidget {
   @override
@@ -10,7 +11,7 @@ class MySchedule extends StatefulWidget {
 class _MyScheduleState extends State<MySchedule> {
   final items = List<String>.generate(20, (index) => "item ${index + 1}");
   int _selectedIndex = 0;
-  final List<Widget> _screens = [ ScheduleList(), AddList()];
+  final List<Widget> _screens = [ScheduleList(), AddList(), HolidayList()];
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,10 @@ class _MyScheduleState extends State<MySchedule> {
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
             title: Text('추가'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.access_alarm),
+            title: Text('휴일 선택'),
           ),
         ],
       ),

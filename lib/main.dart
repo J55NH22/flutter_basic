@@ -15,9 +15,9 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<Counter>(
       create: (_) => Counter(0),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'WooriBAS',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.orange,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         routes: routes,
@@ -114,7 +114,7 @@ class _MyDrawerState extends State<MyDrawer> {
             print('알람 확인');
           }),
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('WooriBAS'),
         actions: [
           IconButton(
               icon: Icon(Icons.search),

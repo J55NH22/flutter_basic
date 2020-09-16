@@ -32,6 +32,7 @@ dependencies:
   bottom_personalized_dot_bar: ^1.0.2
   day_picker: ^1.0.1
   syncfusion_flutter_charts: ^18.2.57
+  charts_flutter: ^0.9.0
   badges: ^1.1.1
 
   # The following adds the Cupertino Icons font to your application.
